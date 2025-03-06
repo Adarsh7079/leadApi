@@ -1,3 +1,5 @@
+
+// Own API response after hitting URL
 class ApiResponse {
     constructor(statusCode ,data,message ="Success"){
         this.statusCode=statusCode,
