@@ -1,52 +1,123 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
-  { field: "age", headerName: "Age", type: "number", width: 90 },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params) => {
-      if (!params || !params.row) return ""; // Handle undefined params safely
-      return `${params.row.firstName || ""} ${params.row.lastName || ""}`;
+export const Table = () => {
+  const [leads, setLeads] = useState([]);
+  const [filteredLeads, setFilteredLeads] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
+
+  useEffect(() => {
+    const fetchLeads = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/lead");
+        if (response.data.success && Array.isArray(response.data.leads)) {
+          setLeads(response.data.leads);
+          setFilteredLeads(response.data.leads);
+        } else {
+          throw new Error("Leads data is not in the expected format");
+        }
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+    fetchLeads();
+  }, []);
+
+  // Safe date formatting function for display
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date instanceof Date && !isNaN(date) ? date.toISOString().split("T")[0] : "Invalid Date";
+  };
+
+  // Safe time formatting function for display
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    return date instanceof Date && !isNaN(date) ? date.toLocaleTimeString() : "Invalid Time";
+  };
+
+  const handleDateChange = (event) => {
+    const selected = event.target.value;
+    setSelectedDate(selected);
+    if (!selected) {
+      setFilteredLeads(leads);
+    } else {
+      setFilteredLeads(
+        leads.filter(
+          (lead) => lead.createdAt && formatDate(lead.createdAt) === selected
+        )
+      );
+    }
+  };
+
+  // Columns definition
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "name", headerName: "Name", width: 130 },
+    { field: "email", headerName: "Email", width: 200 },
+    { field: "phone", headerName: "Phone", width: 130 },
+    { field: "city", headerName: "Location", width: 130 },
+    { field: "sublocation", headerName: "Sub Location", width: 130 },
+    { field: "builder", headerName: "Builder", width: 130 },
+    { field: "project", headerName: "Project", width: 130 },
+    {
+      field: "createdDate",
+      headerName: "Created Date",
+      width: 160,
+      valueGetter: (params) => {
+        const createdAt = params?.row?.createdAt;
+        return createdAt ? formatDate(createdAt) : "N/A";
+      },
     },
-  },
-];
+    {
+      field: "createdTime",
+      headerName: "Created Time",
+      width: 160,
+      valueGetter: (params) => {
+        const createdAt = params?.row?.createdAt;
+        return createdAt ? formatTime(createdAt) : "N/A";
+      },
+    },
+  ];
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+  // Rows transformation
+  const rows = filteredLeads.map((lead, index) => ({ id: index + 1, ...lead }));
 
-export default function DataTable() {
+  // Loading and error states
+  if (loading) return <div className="text-center p-4">Loading...</div>;
+  if (error) return <div className="text-center text-red-500 p-4">Error: {error}</div>;
+
+  // Get today's date for date picker max value
+  const today = new Date().toISOString().split("T")[0];
+
   return (
-   <div className=" w-full p-10 mt-10">
-    <div className=" w-full  flex items-center justify-center">
-       <h1 className=" text-3xl underline font-semibold">All Leads</h1>
+    <div className="p-8">
+      <h1 className="text-3xl font-bold text-center mb-6">All Leads</h1>
+      
+      <div className="flex justify-center mb-6">
+        <input
+          type="date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          max={today}  // Prevent selecting future dates
+          className="border p-2 rounded-lg shadow-sm"
+        />
+      </div>
+
+      <Paper sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          sx={{ border: 1 }}
+        />
+      </Paper>
     </div>
-     <Paper sx={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        sx={{ border: 1 }}
-      />
-    </Paper>
-   </div>
   );
-}
+};
