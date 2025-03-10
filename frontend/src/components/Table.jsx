@@ -13,7 +13,7 @@ export const Table = () => {
   useEffect(() => {
     const fetchLeads = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/lead");
+        const response = await axios.get("https://backend-lead.onrender.com/api/lead");
         if (response.data.success && Array.isArray(response.data.leads)) {
           setLeads(response.data.leads);
           setFilteredLeads(response.data.leads);
@@ -109,7 +109,7 @@ export const Table = () => {
         />
       </div>
 
-      <Paper sx={{ height: 400, width: "100%" }}>
+      <Paper sx={{ height: 600, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
