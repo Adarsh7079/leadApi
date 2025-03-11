@@ -1,0 +1,67 @@
+.slick-prev,
+.slick-next {
+  /* Custom button color (e.g., indigo) */
+
+  border-radius: 50%;
+  opacity: 1;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  color: #384152; /* Default button color */
+  visibility: visible !important; /* Ensure visibility */
+  pointer-events: auto !important; /* Enable interaction */
+
+  color: #384152; /* Icon color */
+}
+
+/* Hover effect */
+.slick-prev:hover,
+.slick-next:hover {
+  color: #384152; /* Hover color */
+}
+
+/* Icon styling inside the buttons */
+.slick-prev:before,
+.slick-next:before {
+  font-size: 28px;
+  color: inherit; /* Use the color set on the button */
+}
+
+/* Disable default "disabled" behavior for buttons */
+.slick-disabled {
+  opacity: 1 !important; /* Keep the button fully visible */
+  pointer-events: auto !important; /* Allow interaction */
+  color: #384152; /* Keep consistent styling for disabled buttons */
+}
+
+/* Optional: Add a subtle visual cue for disabled buttons */
+.slick-disabled:hover {
+  color: #384152; /* Slightly lighter color on hover for clarity */
+
+  color: #384152; /* Hover color (e.g., light blue) */
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 28px;
+  color: inherit; /* Use the color set in the button */
+}
+/* Ensure the buttons are always visible */
+.slick-prev,
+.slick-next {
+  visibility: visible !important; /* Force visibility */
+  pointer-events: auto; /* Enable interaction */
+  color: #384152; /* Button color */
+}
+
+/* Adjust the hover color */
+.slick-prev:hover,
+.slick-next:hover {
+  color: #384152; /* Custom hover color */
+}
+
+#blurimg{
+  filter: blur(8px);
+  -webkit-filter: blur(4px);
+}
