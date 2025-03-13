@@ -15,6 +15,8 @@ import Faq from "../../components/project/share/Faq";
 import SimilarProject from "../../components/project/share/SimilarProject";
 // import Main_Footer from "../../../../components/footer/IndiaFooter/Main_Footer";
 import { Toaster } from "react-hot-toast";
+import Navbar from "./Navbar/Navbar";
+import Main_Footer from "./IndiaFooter/Main_Footer";
 
 export const ProjectPage = () => {
   return (
@@ -38,6 +40,7 @@ content="Explore M3M Altitude in Sector 65, Gurgaon – a premium residential pr
         /> */}
         <Toaster position="top-roght" reverseOrder={false}/>
         {/* <Navbar /> */}
+        <Navbar/>
         <div className="mt-20">
           <Banner
             bannerDesktopImage={
@@ -79,13 +82,8 @@ content="Explore M3M Altitude in Sector 65, Gurgaon – a premium residential pr
           <Location
             location={projectsm3m.m3maltitude.location_m3maltitude}
           />
-          <Gallery
-            galleryData={projectsm3m.m3maltitude.gallery_m3maltitude}
-          />
-          <Faq faqdata={projectsm3m.m3maltitude.faq_m3maltitude} />
-          {/* <SimilarProject Similarprojects={projectsm3m.m3maltitude.similar_m3maltitude} /> */}
+         <Main_Footer/>
         </div>
-        {/* <Main_Footer/> */}
       </div>
     </>
   );

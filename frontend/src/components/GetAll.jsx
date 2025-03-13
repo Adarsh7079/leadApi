@@ -11,8 +11,7 @@ export const GetAll = () => {
     const fetchLeads = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/lead');
-        
-        console.log("get", response.data); // Log the full response
+         
 
         // Check if the response contains 'leads' and if it's an array
         if (response.data.success && Array.isArray(response.data.leads)) {

@@ -76,7 +76,7 @@ const Overview = ({ overviewData, stripdata }) => {
                     )}
                   </div>
                 </div>
-                <div className="col-xl-6 hidden md:block">
+                {/* <div className="col-xl-6 hidden md:block">
                   <div className="about-three__left">
                     <div className="about-three__img-box">
                       <div className="about-three__img-1 border rounded-xl w-[400px] ">
@@ -88,7 +88,7 @@ const Overview = ({ overviewData, stripdata }) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </section>
@@ -96,7 +96,7 @@ const Overview = ({ overviewData, stripdata }) => {
             className=" hidden md:flex sm:mt-[-15%] 2xl:mt-[-10%]  drop-shadow-2xl"
             id="smallhide"
           >
-            <div className="container ">
+            {/* <div className="container ">
               <div className=" px-20 ">
                 <div className="w- full  flex justify-center">
                   <div className=" w-[700px] rounded-xl border-gray-700 text-white bg-gray-700 px-3 pt-3">
@@ -129,7 +129,7 @@ const Overview = ({ overviewData, stripdata }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </section>
           {/* Overview End */}
 
