@@ -6,6 +6,9 @@ const EnquiryForm = () => {
   const location = useLocation();
   const propertySlug = location.pathname.split("/")[1];
 
+  if(!propertySlug){
+    propertySlug="Property-Station"
+  }
   const [formData, setFormData] = useState({
     name: "",
     email: "",
